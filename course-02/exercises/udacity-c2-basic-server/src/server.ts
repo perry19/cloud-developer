@@ -89,6 +89,20 @@ import { Car, cars as cars_list } from './cars';
   // it should require id
   // it should fail gracefully if no matching car is found
 
+  app.get( "/cars/:id", 
+    ( req: Request, res: Response ) => {
+      let { id } = req.params;
+
+      let car = cars.filter(car => car.id === parseInt(id, 10))
+
+      if (car.length > 0) {
+        return res.status(200).send(car)
+      }
+      else{
+        return res.status(400).send(JSON.stringify({"message":"No matching cars"}));
+      }
+  } );
+
   /// @TODO Add an endpoint to post a new car to our list
   // it should require id, type, model, and cost
 
