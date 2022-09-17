@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 
 import { User } from '../models/User';
 
-import * as bcrypt from 'bcrypt';
+const bcrypt = require('bcrypt');
 import * as jwt from 'jsonwebtoken';
 import { NextFunction } from 'connect';
 
@@ -13,12 +13,14 @@ const router: Router = Router();
 
 async function generatePassword(plainTextPassword: string): Promise<string> {
     //@TODO Use Bcrypt to Generated Salted Hashed Passwords
-    return "NotYetImplemented"
+    const saltRounds = 10;
+    const hash = bcrypt.hashSync(plainTextPassword, saltRounds);
+    return hash
 }
 
 async function comparePasswords(plainTextPassword: string, hash: string): Promise<boolean> {
     //@TODO Use Bcrypt to Compare your password to your Salted Hashed Password
-    return true
+    return bcrypt.compareSync(plainTextPassword, hash);
 }
 
 function generateJWT(user: User): string {
